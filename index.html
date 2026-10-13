@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>英语易混淆词汇测试 - 进阶版</title>
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #e0e7ff;
+      --success-color: #10b981;
+      --success-light: #d1fae5;
+      --danger-color: #ef4444;
+      --danger-light: #fee2e2;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: var(--text-main); line-height: 1.6;
+      padding: 20px 16px 80px 16px; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .container { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 16px; }
+    .filter-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      padding: 8px 16px; border-radius: 9999px; font-size: 14px; font-weight: 600;
+      background-color: var(--card-bg); color: var(--text-muted); cursor: pointer;
+      white-space: nowrap; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .filter-pill:hover { background-color: var(--bg-color); }
+    .filter-pill.active { background-color: var(--primary-color); color: #fff; border-color: var(--primary-color); box-shadow: 0 4px 14px 0 rgba(79,70,229,0.39); }
+    .header-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--card-bg); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+    .progress-container { flex: 1; height: 8px; background-color: var(--bg-color); border-radius: 999px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), #818cf8); border-radius: 999px; transition: width 0.4s cubic-bezier(0.4,0,0.2,1); width: 0%; }
+    .progress-text { font-size: 14px; font-weight: 700; color: var(--text-muted); min-width: 65px; text-align: right; }
+    .counter-group { display: flex; gap: 8px; }
+    .badge-pill { display: inline-flex; align-items: center; justify-content: center; padding: 4px 10px; border-radius: 999px; font-size: 13px; font-weight: 700; gap: 4px; }
+    .badge-pill.wrong { background-color: var(--danger-light); color: #b91c1c; }
+    .badge-pill.correct { background-color: var(--success-light); color: #047857; }
+    .main-card { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-md); position: relative; overflow: hidden; animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .question-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .question-num { font-size: 16px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-group { display: flex; gap: 8px; }
+    .tag { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 6px; }
+    .tag-batch { background-color: #f3e8ff; color: #7e22ce; }
+    .tag-star { background-color: #fef3c7; color: #b45309; }
+    .question-prompt { font-size: 18px; color: var(--text-main); margin-bottom: 24px; font-weight: 500; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .word-highlight { background: linear-gradient(120deg, #e0e7ff 0%, #c7d2fe 100%); color: var(--primary-color); padding: 4px 12px; border-radius: 8px; font-weight: 800; font-size: 22px; letter-spacing: 0.5px; box-shadow: inset 0 -2px 0 rgba(79,70,229,0.2); }
+    .sound-btn { background: var(--primary-light); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; color: var(--primary-color); display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .sound-btn:hover { background: #c7d2fe; transform: scale(1.05); }
+    .sound-btn:active { transform: scale(0.95); }
+    .sound-btn svg { width: 20px; height: 20px; fill: currentColor; }
+    .options-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .option-card { background-color: #fff; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 16px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4,0,0.2,1); position: relative; }
+    .option-card:hover:not(.disabled) { border-color: var(--primary-color); background-color: #f8fafc; transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .option-card.disabled { cursor: default; }
+    .option-header { display: flex; justify-content: space-between; align-items: center; }
+    .option-left { display: flex; align-items: center; font-size: 16px; font-weight: 500; color: var(--text-main); }
+    .option-letter { background-color: var(--bg-color); color: var(--text-muted); width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: 700; margin-right: 12px; font-size: 14px; transition: all 0.2s; }
+    .option-card.selected-correct, .option-card.show-correct { background-color: var(--success-light); border-color: var(--success-color); }
+    .option-card.selected-correct .option-letter, .option-card.show-correct .option-letter { background-color: var(--success-color); color: white; }
+    .option-card.selected-wrong { background-color: var(--danger-light); border-color: var(--danger-color); }
+    .option-card.selected-wrong .option-letter { background-color: var(--danger-color); color: white; }
+    .option-card.show-distractor { background-color: #f8fafc; border-color: #cbd5e1; opacity: 0.8; }
+    .status-badge { display: none; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .selected-correct .status-badge, .show-correct .status-badge { display: inline-block; background: var(--success-color); color: white; }
+    .selected-wrong .status-badge { display: inline-block; background: var(--danger-color); color: white; }
+    .show-distractor .status-badge { display: inline-block; background: #e2e8f0; color: #475569; }
+    .explanation-text { display: none; margin-top: 12px; font-size: 14px; line-height: 1.6; padding: 12px; border-radius: 8px; animation: fadeIn 0.3s ease; }
+    .selected-correct .explanation-text, .show-correct .explanation-text { display: block; background-color: rgba(255,255,255,0.6); color: #065f46; }
+    .selected-wrong .explanation-text { display: block; background-color: rgba(255,255,255,0.6); color: #991b1b; }
+    .show-distractor .explanation-text { display: block; background-color: rgba(255,255,255,0.6); color: #334155; }
+    .nav-bar { display: flex; gap: 12px; margin-top: 24px; }
+    .btn { flex: 1; padding: 14px 24px; border-radius: var(--radius-md); font-size: 16px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-secondary { background-color: white; color: var(--text-main); border: 2px solid var(--border-color); }
+    .btn-secondary:hover:not(:disabled) { background-color: var(--bg-color); border-color: #d1d5db; }
+    .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background-color: var(--primary-color); color: white; box-shadow: 0 4px 6px -1px rgba(79,70,229,0.3); }
+    .btn-primary:hover:not(:disabled) { background-color: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 6px 8px -1px rgba(79,70,229,0.4); }
+    .kbd-hint { font-size: 11px; color: #9ca3af; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; border: 1px solid #e5e7eb; margin-left: auto; }
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(17,24,39,0.7); backdrop-filter: blur(4px); z-index: 100; justify-content: center; align-items: center; padding: 20px; animation: fadeIn 0.3s ease-out; }
+    .modal-card { background: white; border-radius: var(--radius-lg); width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 32px 24px; box-shadow: var(--shadow-lg); }
+    .modal-card::-webkit-scrollbar { width: 6px; }
+    .modal-card::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .summary-header { text-align: center; margin-bottom: 24px; }
+    .summary-title { font-size: 24px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; }
+    .score-circle { font-size: 56px; font-weight: 900; background: linear-gradient(135deg, var(--primary-color), #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 16px 0; }
+    .summary-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; background: #f8fafc; padding: 16px; border-radius: var(--radius-md); margin-bottom: 24px; border: 1px solid var(--border-color); }
+    .stat-item { text-align: center; }
+    .stat-val { font-size: 24px; font-weight: 800; }
+    .stat-label { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
+    .mistake-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .mistake-item { padding: 16px; background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius-md); border-left: 4px solid var(--danger-color); box-shadow: var(--shadow-sm); }
+    .mistake-word { font-size: 18px; font-weight: 800; color: var(--danger-color); margin-bottom: 4px; }
+    .confetti { position: absolute; width: 10px; height: 10px; background-color: #f00; animation: fall linear forwards; }
+    @keyframes fall { to { transform: translateY(100vh) rotate(720deg); } }
+    textarea.import-input { width: 100%; height: 140px; border: 2px solid var(--border-color); border-radius: var(--radius-md); padding: 12px; font-family: inherit; font-size: 14px; resize: vertical; margin-bottom: 12px; outline: none; }
+    textarea.import-input:focus { border-color: var(--primary-color); }
+    .import-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.7; }
+    .ocr-zone { border: 2px dashed var(--border-color); border-radius: var(--radius-md); padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 16px; position: relative; }
+    .ocr-zone:hover { border-color: var(--primary-color); background: #f8fafc; }
+    .ocr-zone.dragging { border-color: var(--primary-color); background: var(--primary-light); }
+    .ocr-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .ocr-icon { font-size: 32px; margin-bottom: 8px; }
+    .ocr-label { font-size: 14px; color: var(--text-muted); font-weight: 600; }
+    .ocr-sub { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+    .ocr-progress { display: none; margin-top: 12px; }
+    .ocr-progress-bar { height: 6px; background: var(--bg-color); border-radius: 999px; overflow: hidden; }
+    .ocr-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-color), #818cf8); border-radius: 999px; transition: width 0.3s; width: 0%; }
+    .ocr-progress-text { font-size: 12px; color: var(--text-muted); margin-top: 6px; text-align: center; }
+    .tab-bar { display: flex; gap: 0; margin-bottom: 16px; border-radius: var(--radius-md); overflow: hidden; border: 2px solid var(--border-color); }
+    .tab-btn { flex: 1; padding: 10px; font-size: 14px; font-weight: 700; border: none; cursor: pointer; background: #fff; color: var(--text-muted); transition: all 0.2s; }
+    .tab-btn.active { background: var(--primary-color); color: white; }
+    .tab-btn:hover:not(.active) { background: var(--bg-color); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .ocr-preview { max-width: 100%; max-height: 150px; border-radius: var(--radius-sm); margin-top: 12px; display: none; border: 1px solid var(--border-color); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="filter-scroll">
+      <div class="filter-pill active" onclick="switchMode('all', this)">全部词库 (0题)</div>
+      <div class="filter-pill" onclick="switchMode('mistakes', this)" id="mistakePill">📚 我的错题本 (0)</div>
+      <div class="filter-pill" onclick="switchMode('smart', this)">🧠 智能复习</div>
+      <div class="filter-pill" onclick="switchMode('sprint10', this)">⚡ 10题速练</div>
+      <div class="filter-pill" onclick="openImportModal()" style="border-style: dashed; border-color: #818cf8; color: #4f46e5;">➕ 导入新题</div>
+      <div class="filter-pill" onclick="switchMode('stars', this)">★ 星号特训</div>
+      <div class="filter-pill" onclick="switchMode('g24', this)">📝 Group 24</div>
+      <div class="filter-pill" onclick="switchMode('g25', this)">📝 Group 25</div>
+      <div class="filter-pill" onclick="switchMode('g26', this)">📝 Group 26</div>
+    </div>
+
+    <div class="header-bar">
+      <div class="progress-container"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">1 / 183</div>
+      <div class="counter-group">
+        <div class="badge-pill correct" id="correctCountBadge">✓ 0</div>
+        <div class="badge-pill wrong" id="wrongCountBadge">✕ 0</div>
+      </div>
+    </div>
+
+    <div class="main-card" id="mainCard">
+      <div class="question-title-row">
+        <div class="question-num" id="questionNumText">Question 1</div>
+        <div class="badge-group">
+          <span class="tag tag-batch" id="batchTag">第一期</span>
+          <span class="tag tag-star" id="starTag">★ 高频错词</span>
+        </div>
+      </div>
+      <div class="question-prompt">
+        请选择单词 <span class="word-highlight" id="targetWord">tend</span> 的正确中文含义：
+        <button class="sound-btn" onclick="speakCurrentWord()" title="发音 (快捷键: S)">
+          <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </button>
+      </div>
+      <div class="options-list" id="optionsList"></div>
+      <div class="nav-bar">
+        <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()">
+          <span class="kbd-hint" style="margin-left:0; margin-right:8px;">← / ⌫</span>
+          上一题
+        </button>
+        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+          下一题
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Modal -->
+  <div class="modal-overlay" id="summaryModal">
+    <div class="modal-card">
+      <div class="summary-header">
+        <div class="summary-title" id="summaryTitle">🎉 测试完成！</div>
+        <div class="score-circle" id="scoreDisplay">85%</div>
+        <div class="summary-stats">
+          <div class="stat-item"><div class="stat-val" style="color:var(--success-color);" id="finalCorrect">0</div><div class="stat-label">正确</div></div>
+          <div class="stat-item"><div class="stat-val" style="color:var(--danger-color);" id="finalWrong">0</div><div class="stat-label">错误</div></div>
+          <div class="stat-item"><div class="stat-val" style="color:var(--primary-color);" id="finalTotal">183</div><div class="stat-label">总题数</div></div>
+        </div>
+      </div>
+      <div id="mistakeSection">
+        <h4 style="margin-bottom: 16px; color: var(--text-main); font-size: 16px;">错题回顾与速记：</h4>
+        <div class="mistake-list" id="mistakeList"></div>
+      </div>
+      <div style="display: flex; gap: 12px; margin-top: 24px;">
+        <button class="btn btn-secondary" style="flex: 1;" onclick="restartTest()">重新测一遍</button>
+        <button class="btn btn-primary" style="flex: 1;" onclick="retryMistakes()" id="retryMistakesBtn">仅复习错题</button>
+      </div>
+      <div style="margin-top: 12px;"><button class="btn btn-secondary" style="width: 100%; border-style: dashed;" onclick="exportMistakes()">📥 导出所有错题 (Anki / Markdown 格式)</button></div>
+    </div>
+  </div>
+
+  <!-- Import Modal with Tabs -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal-card">
+      <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 16px;">➕ 导入新词</h3>
+
+      <div class="tab-bar">
+        <div class="tab-btn active" onclick="switchImportTab('text', this)">📝 文字粘贴</div>
+        <div class="tab-btn" onclick="switchImportTab('ocr', this)">📷 图片识别</div>
+      </div>
+
+      <!-- Tab 1: Text Import -->
+      <div class="tab-content active" id="tabText">
+        <p class="import-hint">按 <strong>"单词 释义"</strong> 格式粘贴，每行一个。<br>干扰项由系统自动生成，无需手动填写！</p>
+        <textarea id="importData" class="import-input" placeholder="例如：
+abandon 抛弃，放弃
+eloquent 雄辩的，有口才的
+lucrative 利润丰厚的"></textarea>
+      </div>
+
+      <!-- Tab 2: OCR Import -->
+      <div class="tab-content" id="tabOcr">
+        <p class="import-hint">上传/拖入一张包含词汇列表的图片（截图、笔记照片等），系统会自动识别其中的英文单词和中文释义。<br>⚡ 首次使用需联网下载 OCR 引擎（约 4MB），之后可离线使用。</p>
+        <div class="ocr-zone" id="ocrZone">
+          <input type="file" accept="image/*" id="ocrFileInput" onchange="handleOcrFile(event)">
+          <div class="ocr-icon">📷</div>
+          <div class="ocr-label">点击选择图片 或 拖拽到此处</div>
+          <div class="ocr-sub">支持 JPG / PNG / 截图</div>
+        </div>
+        <img id="ocrPreview" class="ocr-preview" alt="预览">
+        <div class="ocr-progress" id="ocrProgress">
+          <div class="ocr-progress-bar"><div class="ocr-progress-fill" id="ocrProgressFill"></div></div>
+          <div class="ocr-progress-text" id="ocrProgressText">准备中...</div>
+        </div>
+        <textarea id="ocrResult" class="import-input" style="display:none;" placeholder="识别结果将显示在这里，你可以手动修改后再导入..."></textarea>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: 12px;">
+        <button class="btn btn-secondary" style="flex: 1;" onclick="closeImportModal()">取消</button>
+        <button class="btn btn-primary" style="flex: 1;" onclick="processImport()">导入</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tesseract.js OCR Engine (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+  <!-- Data -->
+  <script src="words.js"></script>
+  <script>
+    /**
+     * ============================================================================
+     * 1. 全局配置与环境变量 (Configuration & Environment)
+     * ============================================================================
+     * 支持通过 window.__APP_ENV__ 进行动态参数注入，未指定时采用安全默认值。
+     */
+    const ENV = window.__APP_ENV__ || {};
+
+    // 答对题目后自动切入下一题的等待时间（毫秒）
+    const AUTO_ADVANCE_DELAY = (ENV.AUTO_ADVANCE_DELAY_MS && Number(ENV.AUTO_ADVANCE_DELAY_MS)) || 1200;
+
+    // LocalStorage 本地存储 Key
+    const STORAGE_KEY = ENV.STORAGE_KEY || 'vocab_app_data_v1';
+    const CUSTOM_KEY = ENV.CUSTOM_KEY || 'vocab_app_custom_v1';
+
+    /**
+     * ============================================================================
+     * 2. 全局响应式状态 (State Management)
+     * ============================================================================
+     */
+    let activeQuestions = [];       // 当前测试所包含的题目列表
+    let currentIndex = 0;           // 当前正在作答的题目下标（0-indexed）
+    let userAnswers = {};           // 用户作答记录映射表：{ [index]: { selectedOptionIndex, isCorrect } }
+    let currentFilterMode = 'all';  // 当前生效的刷题模式 ('all' | 'mistakes' | 'smart' | 'sprint10' | ...)
+    let autoAdvanceTimer = null;    // 自动切题的定时器句柄
+    let wordStats = {};             // 单词熟练度与错题统计信息
+    let customBank = [];            // 用户通过导入功能追加的自定义词库
+
+    /**
+     * ============================================================================
+     * 3. 数据持久化与本地存储 (Data Persistence & LocalStorage)
+     * ============================================================================
+     */
+
+    /**
+     * 从浏览器 LocalStorage 读取已保存的做题进度与自定义生词
+     */
+    function loadData() {
+      // 1. 读取做题统计与错题状态
+      try {
+        wordStats = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch (err) {
+        console.warn('读取错题统计失败，重置为空对象', err);
+        wordStats = {};
+      }
+
+      // 2. 读取用户自建导入生词，并合并到全局词库 masterBank 中
+      try {
+        customBank = JSON.parse(localStorage.getItem(CUSTOM_KEY)) || [];
+        masterBank.push(...customBank);
+      } catch (err) {
+        console.warn('读取自定义词库失败', err);
+        customBank = [];
+      }
+    }
+
+    /**
+     * 将当前错题统计和熟练度持久化到 LocalStorage
+     */
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wordStats));
+    }
+
+    /**
+     * 获取指定单词的统计信息，若不存在则初始化默认值
+     * @param {string|number} num - 题目唯一 ID
+     * @returns {{proficiency: number, consecutiveCorrect: number, isMistake: boolean}}
+     */
+    function getWordStat(num) {
+      if (!wordStats[num]) {
+        wordStats[num] = {
+          proficiency: 0,        // 熟练度分值（0 ~ 3），分值越高掌握越牢
+          consecutiveCorrect: 0, // 连续答对次数（达到 2 次自动移出错题本）
+          isMistake: false       // 当前是否处于错题本中
+        };
+      }
+      return wordStats[num];
+    }
+
+    /**
+     * 更新单个单词的掌握程度与错题状态
+     * @param {string|number} num - 题目唯一 ID
+     * @param {boolean} isCorrect - 本次作答是否正确
+     */
+    function updateWordStats(num, isCorrect) {
+      const stat = getWordStat(num);
+
+      if (isCorrect) {
+        stat.consecutiveCorrect += 1;
+        stat.proficiency = Math.min(3, stat.proficiency + 1);
+
+        // 核心算法规则：错题在后续测试中只要“连续做对 2 次”，即判定已掌握，自动移出错题集
+        if (stat.consecutiveCorrect >= 2) {
+          stat.isMistake = false;
+        }
+      } else {
+        // 答错或点击“不会”：重置连续正确计数，降低熟练度，强制标记为错题
+        stat.consecutiveCorrect = 0;
+        stat.proficiency = Math.max(0, stat.proficiency - 1);
+        stat.isMistake = true;
+      }
+
+      saveData();
+      updateMistakePillCount();
+    }
+
+    /**
+     * 刷新顶部导航栏上的错题统计徽标和总题数
+     */
+    function updateMistakePillCount() {
+      const pill = document.getElementById('mistakePill');
+      if (pill) {
+        let mistakeCount = 0;
+        masterBank.forEach(item => {
+          if (getWordStat(item.num).isMistake) {
+            mistakeCount++;
+          }
+        });
+        pill.innerText = `📚 我的错题本 (${mistakeCount})`;
+      }
+
+      const allPill = document.querySelector('.filter-pill');
+      if (allPill && allPill.innerText.includes('全部词库')) {
+        allPill.innerText = `全部词库 (${masterBank.length}题)`;
+      }
+    }
+
+    /**
+     * ============================================================================
+     * 4. 核心算法层 (Algorithms: Shuffle & Distractor Generation)
+     * ============================================================================
+     */
+
+    /**
+     * Fisher-Yates (Knuth) 洗牌算法：保证每个元素在打乱后出现概率严格均等
+     * @param {Array} array - 待打乱的原始数组
+     * @returns {Array} 打乱后的新数组浅拷贝
+     */
+    function shuffleArray(array) {
+      const copy = [...array];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[randomIndex]] = [copy[randomIndex], copy[i]];
+      }
+      return copy;
+    }
+
+    /**
+     * 动态生成并随机化题目选项
+     * - 对于原生词库：打乱自带的易混淆选项
+     * - 对于自建生词：自动执行“混合干扰项生成”，从词库中动态抽取 3 个真实错误释义填充
+     * @param {Array} questions - 题目列表
+     * @returns {Array} 带有重新分配 A/B/C/D 字母标识的题目列表
+     */
+    function randomizeQuestionOptions(questions) {
+      const letters = ['A', 'B', 'C', 'D'];
+
+      return questions.map(question => {
+        let optionsList = [];
+
+        if (question.options) {
+          // 原生题目：克隆自带的干扰项
+          optionsList = question.options.map(opt => ({ ...opt }));
+        } else {
+          // 自定义生词：自动组装正确释义 + 3 个随机混淆项
+          optionsList.push({
+            text: question.meaning,
+            isCorrect: true,
+            source: question.word,
+            explanation: '✅ 正确释义（自定义生词）'
+          });
+
+          // 从其余词库中随机抽取 3 个互不相同的词汇作为混淆干扰项
+          const poolCandidates = shuffleArray(masterBank.filter(m => m.num !== question.num)).slice(0, 3);
+          poolCandidates.forEach(distractor => {
+            let distractorMeaning = '未知释义';
+            if (distractor.meaning) {
+              distractorMeaning = distractor.meaning;
+            } else if (distractor.options) {
+              const correctOption = distractor.options.find(o => o.isCorrect);
+              if (correctOption) distractorMeaning = correctOption.text;
+            }
+
+            optionsList.push({
+              text: distractorMeaning,
+              isCorrect: false,
+              source: distractor.word,
+              explanation: `💡 干扰项还原 (${distractor.word})：这其实是单词 "${distractor.word}" 的释义。`
+            });
+          });
+        }
+
+        // 打乱选项顺序，并按顺序赋予 A、B、C、D 序号
+        const shuffledOptions = shuffleArray(optionsList);
+        shuffledOptions.forEach((opt, idx) => {
+          opt.letter = letters[idx];
+        });
+
+        return { ...question, options: shuffledOptions };
+      });
+    }
+
+    /**
+     * ============================================================================
+     * 5. 测试流程与界面渲染 (Quiz Flow & UI Rendering)
+     * ============================================================================
+     */
+
+    /**
+     * 应用初始化入口函数
+     */
+    function init() {
+      loadData();
+      updateMistakePillCount();
+      switchMode('all', document.querySelector('.filter-pill.active'));
+      setupKeyboardShortcuts();
+      setupOcrDragEvents();
+    }
+
+    /**
+     * 切换刷题模式
+     * @param {string} mode - 模式代码 ('all', 'mistakes', 'smart', 'sprint10', 'stars', 'g24'...)
+     * @param {HTMLElement} pillElem - 被点击的 Pill DOM 元素
+     */
+    function switchMode(mode, pillElem) {
+      currentFilterMode = mode;
+
+      // 更新顶部 Tab 选中高亮状态
+      document.querySelectorAll('.filter-pill').forEach(pill => pill.classList.remove('active'));
+      if (pillElem) pillElem.classList.add('active');
+
+      clearTimeout(autoAdvanceTimer);
+
+      let targetQuestionList = [];
+
+      if (mode === 'all') {
+        // 全部词库
+        targetQuestionList = [...masterBank];
+      } else if (mode === 'mistakes') {
+        // 专属错题本：筛选出标记为错题的单词
+        targetQuestionList = masterBank.filter(q => getWordStat(q.num).isMistake);
+        if (targetQuestionList.length === 0) {
+          alert('🎉 恭喜！当前错题本是空的！先去其他模式刷几题吧~');
+          return switchMode('all', document.querySelector('.filter-pill'));
+        }
+      } else if (mode === 'smart') {
+        // 智能复习（简易间隔重复加权抽取算法）
+        // 熟练度 0: 权重 10; 熟练度 1: 权重 5; 熟练度 2: 权重 2; 熟练度 3: 权重 1
+        // 错题额外增加 5 点权重，使掌握薄弱的词汇被高频抽到
+        const weightedPool = [];
+        masterBank.forEach(q => {
+          const stat = getWordStat(q.num);
+          const weightMap = [10, 5, 2, 1];
+          let weight = weightMap[stat.proficiency] || 10;
+          if (stat.isMistake) weight += 5;
+
+          for (let i = 0; i < weight; i++) {
+            weightedPool.push(q);
+          }
+        });
+
+        // 抽取最多 20 道不重复的单词组成复习集
+        const pickedSet = new Set();
+        const maxPickCount = Math.min(20, masterBank.length);
+        while (pickedSet.size < maxPickCount && weightedPool.length > 0) {
+          const randomPick = weightedPool[Math.floor(Math.random() * weightedPool.length)];
+          pickedSet.add(randomPick);
+        }
+        targetQuestionList = Array.from(pickedSet);
+      } else if (mode === 'sprint10') {
+        // 10 题速练：真随机抽取 10 道题目
+        targetQuestionList = shuffleArray(masterBank).slice(0, 10);
+      } else if (mode === 'stars') {
+        // 星号重点特训
+        targetQuestionList = masterBank.filter(q => q.star && q.star.includes('★'));
+      } else if (mode === 'g24' || mode === 'g25' || mode === 'g26') {
+        // 分组考点词
+        const groupMapping = { 'g24': 'Group 24', 'g25': 'Group 25', 'g26': 'Group 26' };
+        targetQuestionList = masterBank.filter(q => q.group === groupMapping[mode]);
+      }
+
+      activeQuestions = randomizeQuestionOptions(targetQuestionList);
+      userAnswers = {};
+      currentIndex = 0;
+      document.getElementById('summaryModal').style.display = 'none';
+      loadQuestion(0);
+    }
+
+    /**
+     * 刷新顶部进度条数值与正误计数指示器
+     */
+    function updateProgressIndicators() {
+      let correctCount = 0;
+      let wrongCount = 0;
+
+      Object.values(userAnswers).forEach(record => {
+        if (record.isCorrect) correctCount++;
+        else wrongCount++;
+      });
+
+      document.getElementById('correctCountBadge').innerText = '✓ ' + correctCount;
+      document.getElementById('wrongCountBadge').innerText = '✕ ' + wrongCount;
+      document.getElementById('progressText').innerText = `${currentIndex + 1} / ${activeQuestions.length}`;
+
+      const percentage = Math.round(((currentIndex + 1) / activeQuestions.length) * 100);
+      document.getElementById('progressFill').style.width = percentage + '%';
+    }
+
+    /**
+     * 触发卡片进场过渡动画
+     */
+    function triggerCardAnimation() {
+      const card = document.getElementById('mainCard');
+      card.style.animation = 'none';
+      card.offsetHeight; // 强制 DOM 回流重排
+      card.style.animation = 'fadeIn 0.3s ease-out';
+    }
+
+    /**
+     * 加载并渲染指定下标的题目
+     * @param {number} idx - 题目索引
+     */
+    function loadQuestion(idx) {
+      clearTimeout(autoAdvanceTimer);
+      currentIndex = idx;
+      const currentQuestion = activeQuestions[currentIndex];
+
+      triggerCardAnimation();
+
+      // 渲染题目标题、标签与目标词汇
+      document.getElementById('questionNumText').innerText = `Question ${currentIndex + 1}`;
+      document.getElementById('batchTag').innerText = currentQuestion.group || (currentQuestion.batch ? `Batch ${currentQuestion.batch}` : '自建词库');
+      document.getElementById('starTag').innerText = currentQuestion.star ? `${currentQuestion.star} 重点` : '常规';
+      document.getElementById('targetWord').innerText = currentQuestion.word;
+
+      const optionsContainer = document.getElementById('optionsList');
+      optionsContainer.innerHTML = '';
+
+      const answerRecord = userAnswers[currentIndex];
+      const hasAnswered = !!answerRecord;
+
+      // 渲染 A, B, C, D 选项卡片
+      currentQuestion.options.forEach((opt, optIndex) => {
+        const optionCard = document.createElement('div');
+        optionCard.className = 'option-card';
+        optionCard.id = `opt-${optIndex}`;
+
+        let badgeHtml = '';
+        let explanationHtml = '';
+
+        if (hasAnswered) {
+          optionCard.classList.add('disabled');
+          const isUserChoice = answerRecord.selectedOptionIndex === optIndex;
+
+          if (opt.isCorrect) {
+            optionCard.classList.add(isUserChoice ? 'selected-correct' : 'show-correct');
+            badgeHtml = '<span class="status-badge">✓ 正确</span>';
+            explanationHtml = `
+              <div class="explanation-text">
+                <div style="font-weight: 700; margin-bottom: 4px;">✅ 正确释义 (${currentQuestion.word})</div>
+                <div>${opt.explanation}</div>
+              </div>`;
+          } else {
+            if (isUserChoice) {
+              optionCard.classList.add('selected-wrong');
+              badgeHtml = '<span class="status-badge">✕ 你的选择</span>';
+              explanationHtml = `
+                <div class="explanation-text">
+                  <div style="font-weight: 700; margin-bottom: 4px;">❌ 混淆项 (${opt.source})</div>
+                  <div>${opt.explanation}</div>
+                </div>`;
+            } else {
+              optionCard.classList.add('show-distractor');
+              badgeHtml = `<span class="status-badge">来自: ${opt.source}</span>`;
+              explanationHtml = `
+                <div class="explanation-text">
+                  <div style="font-weight: 600; color: #334155; margin-bottom: 4px;">💡 干扰项还原 (${opt.source})</div>
+                  <div>${opt.explanation.replace(/^错误。/, '')}</div>
+                </div>`;
+            }
+          }
+        }
+
+        optionCard.innerHTML = `
+          <div class="option-header">
+            <div class="option-left">
+              <span class="option-letter">${opt.letter}</span>
+              <span>${opt.text}</span>
+            </div>
+            ${badgeHtml}
+            ${!hasAnswered ? `<span class="kbd-hint">${optIndex + 1}</span>` : ''}
+          </div>
+          ${explanationHtml}
+        `;
+
+        if (!hasAnswered) {
+          optionCard.onclick = () => selectOption(optIndex);
+        }
+        optionsContainer.appendChild(optionCard);
+      });
+
+      // 未作答时：展示“实在不会（看答案）”卡片，防止用户盲选侥幸猜对
+      if (!hasAnswered) {
+        const dunnoCard = document.createElement('div');
+        dunnoCard.className = 'option-card';
+        dunnoCard.style.border = '2px dashed #cbd5e1';
+        dunnoCard.style.backgroundColor = '#f8fafc';
+        dunnoCard.innerHTML = `
+          <div class="option-header">
+            <div class="option-left" style="color: #64748b;">
+              <span class="option-letter" style="background: #e2e8f0; color: #475569;">?</span>
+              <span>实在不会 (直接看答案并记入错题)</span>
+            </div>
+            <span class="kbd-hint" style="background:#e2e8f0; color:#475569; border-color:#cbd5e1;">空格键</span>
+          </div>
+        `;
+        dunnoCard.onclick = () => markAsDunno();
+        optionsContainer.appendChild(dunnoCard);
+      }
+
+      // 导航控制按钮状态同步
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      const nextBtn = document.getElementById('nextBtn');
+
+      if (currentIndex === activeQuestions.length - 1) {
+        nextBtn.innerHTML = '查看成绩 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>';
+      } else {
+        nextBtn.innerHTML = '下一题 <span class="kbd-hint" style="background:rgba(255,255,255,0.2);color:white;border-color:rgba(255,255,255,0.3)">Enter</span>';
+      }
+
+      // 未作答时禁用“下一题”，必须作答后才能继续
+      nextBtn.style.opacity = hasAnswered ? '1' : '0.5';
+      nextBtn.style.pointerEvents = hasAnswered ? 'auto' : 'none';
+
+      updateProgressIndicators();
+    }
+
+    /**
+     * 用户点击“实在不会”的处理流程：记错、亮答案、朗读发音
+     */
+    function markAsDunno() {
+      if (userAnswers[currentIndex]) return;
+
+      userAnswers[currentIndex] = {
+        selectedOptionIndex: -1, // -1 表示主动放弃
+        isCorrect: false
+      };
+
+      updateWordStats(activeQuestions[currentIndex].num, false);
+      speakCurrentWord();
+      loadQuestion(currentIndex);
+    }
+
+    /**
+     * 用户点击选项作答的处理流程
+     * @param {number} selectedOptIdx - 用户选中的选项下标 (0-3)
+     */
+    function selectOption(selectedOptIdx) {
+      if (userAnswers[currentIndex]) return; // 已作答过，阻止重复选择
+
+      const question = activeQuestions[currentIndex];
+      const isCorrect = question.options[selectedOptIdx].isCorrect;
+
+      userAnswers[currentIndex] = {
+        selectedOptionIndex: selectedOptIdx,
+        isCorrect: isCorrect
+      };
+
+      updateWordStats(question.num, isCorrect);
+      speakCurrentWord();
+      loadQuestion(currentIndex);
+
+      // 若答对且非最后一题，延时自动切入下一题
+      if (isCorrect && currentIndex < activeQuestions.length - 1) {
+        autoAdvanceTimer = setTimeout(() => {
+          nextQuestion();
+        }, AUTO_ADVANCE_DELAY);
+      }
+    }
+
+    /**
+     * 翻至下一题或提交查看结算总结
+     */
+    function nextQuestion() {
+      if (!userAnswers[currentIndex]) return;
+
+      if (currentIndex < activeQuestions.length - 1) {
+        loadQuestion(currentIndex + 1);
+      } else {
+        showSummary();
+      }
+    }
+
+    /**
+     * 返回上一题
+     */
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        loadQuestion(currentIndex - 1);
+      }
+    }
+
+    /**
+     * 基于浏览器原生 Web Speech API 朗读当前英文单词
+     */
+    function speakCurrentWord() {
+      const word = activeQuestions[currentIndex].word;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // 停止当前正在播放的声音
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    /**
+     * 全对通关时的彩带礼花效果
+     */
+    function createConfetti() {
+      const colors = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#ec4899'];
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+
+    /**
+     * ============================================================================
+     * 6. 成绩结算与错题导出 (Summary & Export)
+     * ============================================================================
+     */
+
+    /**
+     * 弹出成绩结算模态框并展示错题清单
+     */
+    function showSummary() {
+      let correctCount = 0;
+      const mistakeDetails = [];
+
+      activeQuestions.forEach((q, idx) => {
+        const answer = userAnswers[idx];
+        if (answer && answer.isCorrect) {
+          correctCount++;
+        } else if (answer) {
+          const correctOpt = q.options.find(o => o.isCorrect);
+          const userChoiceText = answer.selectedOptionIndex === -1
+            ? '实在不会 (未选择)'
+            : q.options[answer.selectedOptionIndex].text;
+
+          mistakeDetails.push({
+            word: q.word,
+            correctMeaning: correctOpt ? correctOpt.text : '未知',
+            userChoice: userChoiceText
+          });
+        }
+      });
+
+      const totalCount = activeQuestions.length;
+      const scorePercentage = totalCount ? Math.round((correctCount / totalCount) * 100) : 0;
+
+      document.getElementById('scoreDisplay').innerText = scorePercentage + '%';
+      document.getElementById('finalCorrect').innerText = correctCount;
+      document.getElementById('finalWrong').innerText = mistakeDetails.length;
+      document.getElementById('finalTotal').innerText = totalCount;
+
+      const mistakeListDiv = document.getElementById('mistakeList');
+      mistakeListDiv.innerHTML = '';
+
+      if (mistakeDetails.length === 0 && totalCount > 0) {
+        document.getElementById('summaryTitle').innerText = '🏆 完美通关！';
+        mistakeListDiv.innerHTML = '<div style="color:var(--success-color); font-weight:700; text-align:center; padding:20px;">太棒了！全对通过，零失误！🎉</div>';
+        document.getElementById('retryMistakesBtn').style.display = 'none';
+        createConfetti();
+      } else {
+        document.getElementById('summaryTitle').innerText = '📝 测试完成';
+        document.getElementById('retryMistakesBtn').style.display = 'inline-block';
+
+        mistakeDetails.forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'mistake-item';
+          itemDiv.innerHTML = `
+            <div class="mistake-word">${item.word}</div>
+            <div style="font-size: 14px; margin-bottom: 6px;">
+              <span style="color:var(--success-color); font-weight:600;">正确：</span>${item.correctMeaning}
+            </div>
+            <div style="font-size: 13px; color:var(--text-muted);">
+              <span style="color:var(--danger-color);">你的选择：</span>${item.userChoice}
+            </div>
+          `;
+          mistakeListDiv.appendChild(itemDiv);
+        });
+      }
+
+      document.getElementById('summaryModal').style.display = 'flex';
+    }
+
+    /**
+     * 重新测试当前模式
+     */
+    function restartTest() {
+      if (currentFilterMode === 'sprint10') {
+        // 10 题速练在重新测试时，重新随机抽取 10 道题目
+        const freshList = shuffleArray(masterBank).slice(0, 10);
+        activeQuestions = randomizeQuestionOptions(freshList);
+      }
+      userAnswers = {};
+      currentIndex = 0;
+      document.getElementById('summaryModal').style.display = 'none';
+      loadQuestion(0);
+    }
+
+    /**
+     * 针对本轮作答错误的题目进行专门二次突击
+     */
+    function retryMistakes() {
+      const wrongIndices = [];
+      activeQuestions.forEach((q, idx) => {
+        const answer = userAnswers[idx];
+        if (!answer || !answer.isCorrect) {
+          wrongIndices.push(idx);
+        }
+      });
+
+      if (wrongIndices.length > 0) {
+        activeQuestions = wrongIndices.map(i => activeQuestions[i]);
+        userAnswers = {};
+        document.getElementById('summaryModal').style.display = 'none';
+        loadQuestion(0);
+      }
+    }
+
+    /**
+     * 将全部错题导出为 Anki / Tab 分隔的纯文本卡片文件
+     */
+    function exportMistakes() {
+      const mistakes = masterBank.filter(q => getWordStat(q.num).isMistake);
+      if (mistakes.length === 0) {
+        alert('🎉 当前没有错题记录可供导出！');
+        return;
+      }
+
+      let exportContent = '词汇\t正确释义\t熟练度分值\n';
+      mistakes.forEach(q => {
+        let correctMeaning = '未知释义';
+        if (q.meaning) {
+          correctMeaning = q.meaning;
+        } else if (q.options) {
+          const correctOpt = q.options.find(o => o.isCorrect);
+          if (correctOpt) correctMeaning = correctOpt.text;
+        }
+        const stat = getWordStat(q.num);
+        exportContent += `${q.word}\t${correctMeaning}\t熟练度:${stat.proficiency}\n`;
+      });
+
+      // 触发浏览器直接下载文本文件
+      const blob = new Blob([exportContent], { type: 'text/plain;charset=utf-8' });
+      const downloadUrl = URL.createObjectURL(blob);
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.href = downloadUrl;
+      downloadAnchor.download = `错题本导出_Anki格式_${new Date().toISOString().slice(0, 10)}.txt`;
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      document.body.removeChild(downloadAnchor);
+      URL.revokeObjectURL(downloadUrl);
+    }
+
+    /**
+     * ============================================================================
+     * 7. 词汇批量导入与 OCR 图像识别 (Import & In-Browser OCR)
+     * ============================================================================
+     */
+
+    /**
+     * 切换导入窗口内的“文本粘贴”与“图片识别”两个标签页
+     * @param {'text'|'ocr'} tab 
+     * @param {HTMLElement} btn 
+     */
+    function switchImportTab(tab, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(tab === 'text' ? 'tabText' : 'tabOcr').classList.add('active');
+    }
+
+    /** 打开导入模态弹窗 */
+    function openImportModal() {
+      document.getElementById('importModal').style.display = 'flex';
+    }
+
+    /** 关闭并清空导入弹窗内容 */
+    function closeImportModal() {
+      document.getElementById('importModal').style.display = 'none';
+      document.getElementById('importData').value = '';
+      document.getElementById('ocrResult').value = '';
+      document.getElementById('ocrResult').style.display = 'none';
+      document.getElementById('ocrPreview').style.display = 'none';
+      document.getElementById('ocrProgress').style.display = 'none';
+    }
+
+    /**
+     * 解析导入内容并写入词库与 LocalStorage
+     */
+    function processImport() {
+      const activeTab = document.querySelector('.tab-content.active');
+      let rawText = '';
+
+      if (activeTab && activeTab.id === 'tabText') {
+        rawText = document.getElementById('importData').value.trim();
+      } else {
+        rawText = document.getElementById('ocrResult').value.trim();
+      }
+
+      if (!rawText) {
+        alert('请先输入或通过图片识别词汇内容！');
+        return;
+      }
+
+      const lines = rawText.split('\n');
+      let successCount = 0;
+
+      lines.forEach(line => {
+        const trimmedLine = line.trim();
+        if (!trimmedLine) return;
+
+        // 正则表达式匹配：以英文单词开头，后接中文释义
+        const match = trimmedLine.match(/^([a-zA-Z][\w\s\-']*?)\s+([\u4e00-\u9fff].+)$/);
+        let word = '';
+        let meaning = '';
+
+        if (match) {
+          word = match[1].trim();
+          meaning = match[2].trim();
+        } else {
+          // 通用回退：按第一个空格划分
+          const parts = trimmedLine.split(/\s+/);
+          if (parts.length >= 2) {
+            word = parts[0].trim();
+            meaning = parts.slice(1).join(' ').trim();
+          }
+        }
+
+        if (word && meaning) {
+          const newItem = {
+            num: 'custom_' + Date.now() + '_' + (++successCount),
+            word: word,
+            meaning: meaning,
+            group: '自建词库',
+            star: '⭐'
+          };
+          customBank.push(newItem);
+          masterBank.push(newItem);
+        }
+      });
+
+      if (successCount > 0) {
+        localStorage.setItem(CUSTOM_KEY, JSON.stringify(customBank));
+        alert(`✅ 成功导入 ${successCount} 个新词！\n测试时系统将自动生成混淆项，无需手动编写。`);
+        updateMistakePillCount();
+        closeImportModal();
+        switchMode('all', document.querySelector('.filter-pill'));
+      } else {
+        alert('⚠️ 未能识别出有效格式，每行请按 "单词 释义" 格式填写。');
+      }
+    }
+
+    /**
+     * 处理用户选择的图片文件
+     */
+    function handleOcrFile(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const previewImg = document.getElementById('ocrPreview');
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
+        runOcr(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /**
+     * 使用 Tesseract.js 在浏览器端进行中英文混合 OCR 文字识别
+     * @param {string} imageData - Data URL 图片数据
+     */
+    async function runOcr(imageData) {
+      const progressDiv = document.getElementById('ocrProgress');
+      const progressFill = document.getElementById('ocrProgressFill');
+      const progressText = document.getElementById('ocrProgressText');
+      const resultArea = document.getElementById('ocrResult');
+
+      progressDiv.style.display = 'block';
+      resultArea.style.display = 'none';
+      progressFill.style.width = '10%';
+      progressText.innerText = '正在初始化 OCR 引擎...';
+
+      try {
+        if (typeof Tesseract === 'undefined') {
+          progressText.innerText = '❌ OCR 引擎加载失败，请检查网络连接后刷新页面';
+          return;
+        }
+
+        progressFill.style.width = '25%';
+        progressText.innerText = '正在识别图片中的中英文词汇...';
+
+        // 识别中英文双语
+        const ocrResult = await Tesseract.recognize(imageData, 'eng+chi_sim', {
+          logger: msg => {
+            if (msg.status === 'recognizing text') {
+              const currentProgress = Math.round(25 + msg.progress * 70);
+              progressFill.style.width = currentProgress + '%';
+              progressText.innerText = `正在识别... ${Math.round(msg.progress * 100)}%`;
+            }
+          }
+        });
+
+        progressFill.style.width = '100%';
+        progressText.innerText = '✅ 识别成功！请在下方核对结果后点击“导入”';
+
+        // 对 OCR 提取出的生文本进行智能行对齐过滤
+        const rawLines = ocrResult.data.text.split('\n');
+        const formattedLines = [];
+
+        rawLines.forEach(line => {
+          const cleaned = line.replace(/[|{}[\]]/g, '').trim();
+          if (!cleaned) return;
+
+          const hasEnglish = /[a-zA-Z]{2,}/.test(cleaned);
+          const hasChinese = /[\u4e00-\u9fff]/.test(cleaned);
+
+          if (hasEnglish && hasChinese) {
+            const match = cleaned.match(/([a-zA-Z][\w\s\-']*?)\s*([\u4e00-\u9fff].*)/);
+            if (match) {
+              formattedLines.push(`${match[1].trim()} ${match[2].trim()}`);
+            } else {
+              formattedLines.push(cleaned);
+            }
+          } else if (hasEnglish || hasChinese) {
+            formattedLines.push(cleaned);
+          }
+        });
+
+        resultArea.value = formattedLines.join('\n');
+        resultArea.style.display = 'block';
+
+      } catch (err) {
+        progressFill.style.width = '100%';
+        progressFill.style.background = 'var(--danger-color)';
+        progressText.innerText = '❌ 识别发生错误: ' + (err.message || '未知异常');
+        console.error('OCR Error:', err);
+      }
+    }
+
+    /**
+     * 绑定 OCR 区域的拖拽上传事件
+     */
+    function setupOcrDragEvents() {
+      const dropZone = document.getElementById('ocrZone');
+      if (!dropZone) return;
+
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragging');
+      });
+
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragging');
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragging');
+        if (e.dataTransfer && e.dataTransfer.files.length) {
+          const file = e.dataTransfer.files[0];
+          const input = document.getElementById('ocrFileInput');
+          if (input) input.files = e.dataTransfer.files;
+          handleOcrFile({ target: { files: [file] } });
+        }
+      });
+    }
+
+    /**
+     * ============================================================================
+     * 8. 全键盘无障碍交互 (Keyboard Accessibility)
+     * ============================================================================
+     */
+    function setupKeyboardShortcuts() {
+      window.addEventListener('keydown', (e) => {
+        // 如果正在导入弹窗输入文字，禁用主界面快捷键
+        if (document.getElementById('importModal').style.display === 'flex') return;
+
+        // 结算面板下按 Enter 快速重新开始
+        if (document.getElementById('summaryModal').style.display === 'flex') {
+          if (e.key === 'Enter') restartTest();
+          return;
+        }
+
+        const hasAnswered = !!userAnswers[currentIndex];
+
+        if (!hasAnswered) {
+          // 快捷数字键 1、2、3、4 选择选项
+          if (['1', '2', '3', '4'].includes(e.key)) {
+            const optionIdx = parseInt(e.key, 10) - 1;
+            if (activeQuestions[currentIndex].options[optionIdx]) {
+              selectOption(optionIdx);
+            }
+          }
+          // 空格键触发“实在不会”
+          if (e.key === ' ') {
+            e.preventDefault();
+            markAsDunno();
+          }
+        } else {
+          // 作答后按 Enter 或 空格 快速切入下一题
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            nextQuestion();
+          }
+        }
+
+        // 按 S 朗读发音
+        if (e.key === 's' || e.key === 'S') {
+          speakCurrentWord();
+        }
+
+        // 按 方向左键 或 Backspace 返回上一题
+        if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+          e.preventDefault();
+          prevQuestion();
+        }
+
+        // 已作答状态下按 方向右键 进入下一题
+        if (e.key === 'ArrowRight' && hasAnswered) {
+          nextQuestion();
+        }
+      });
+    }
+
+    // 页面加载完成后自动启动
+    window.onload = init;
+  </script>
+</body>
+</html>
